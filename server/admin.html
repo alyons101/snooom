@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SNOOOM Admin</title>
+  <style>
+    body { font-family: 'Space Grotesk', system-ui, sans-serif; background:#050c1c; color:#f7f9ff; margin:0; padding:2rem; }
+    header { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; }
+    input, select, button { padding:0.6rem 0.9rem; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:#0d1731; color:#f7f9ff; }
+    button { cursor:pointer; background:#d8b46d; color:#050c1c; border:none; font-weight:600; }
+    section { margin-top:2rem; background:rgba(8,12,30,0.7); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:1.5rem; }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; font-size:0.9rem; }
+    th, td { padding:0.5rem; border-bottom:1px solid rgba(255,255,255,0.08); text-align:left; }
+    canvas { width:100%; max-height:260px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem; }
+    .muted { color:rgba(247,249,255,0.7); font-size:0.9rem; }
+    textarea { width:100%; min-height:80px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SNOOOM Admin</h1>
+    <div>
+      <input type="password" id="token" placeholder="Admin token" />
+      <button id="loadData">Load data</button>
+      <button id="exportCsv">Export CSV</button>
+    </div>
+  </header>
+
+  <section>
+    <h2>Signup Overview</h2>
+    <div class="grid">
+      <div>
+        <label class="muted">Size filter</label>
+        <select id="filterSize">
+          <option value="">All</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+        </select>
+      </div>
+      <div>
+        <label class="muted">Confirmed?</label>
+        <select id="filterConfirmed">
+          <option value="">All</option>
+          <option value="true">Confirmed</option>
+          <option value="false">Unconfirmed</option>
+        </select>
+      </div>
+    </div>
+    <table id="signupsTable">
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Size</th><th>Confirmed</th><th>Referrals</th><th>Created</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Charts</h2>
+    <div class="grid">
+      <canvas id="sizeChart"></canvas>
+      <canvas id="timelineChart"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <h2>Referral Leaderboard</h2>
+    <table id="referralsTable"><thead><tr><th>Name</th><th>Email</th><th>Referrals</th><th>Code</th></tr></thead><tbody></tbody></table>
+  </section>
+
+  <section>
+    <h2>Field Notes</h2>
+    <div class="grid">
+      <div>
+        <textarea id="noteQuote" placeholder="Quote"></textarea>
+        <input id="noteAuthor" placeholder="Author" />
+        <button id="addNote">Add Note</button>
+      </div>
+      <div>
+        <ul id="notesList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Testimonials</h2>
+    <div class="grid">
+      <div>
+        <textarea id="testQuote" placeholder="Quote"></textarea>
+        <input id="testAuthor" placeholder="Author" />
+        <input id="testRole" placeholder="Role" />
+        <button id="addTestimonial">Add Testimonial</button>
+      </div>
+      <div>
+        <ul id="testimonialsList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Event Summary</h2>
+    <pre id="eventSummary" class="muted"></pre>
+  </section>
+
+  <script>
+    const $ = (sel) => document.querySelector(sel);
+    const tokenInput = $('#token');
+    const getToken = () => tokenInput.value.trim();
+    const headers = () => ({ 'Content-Type': 'application/json', 'X-Admin-Token': getToken() });
+
+    async function fetchJSON(url) {
+      const res = await fetch(url, { headers: headers() });
+      if (!res.ok) throw new Error('Request failed');
+      return res.json();
+    }
+
+    async function loadAll() {
+      try {
+        const size = $('#filterSize').value;
+        const confirmed = $('#filterConfirmed').value;
+        const params = new URLSearchParams();
+        if (size) params.set('size', size);
+        if (confirmed) params.set('confirmed', confirmed);
+        const [signups, sizeCounts, timeline, referrals, notes, tests, events] = await Promise.all([
+          fetchJSON(`/api/admin/signups?${params}`),
+          fetchJSON('/api/insights/sizes'),
+          fetchJSON('/api/insights/signups'),
+          fetchJSON('/api/admin/referrals'),
+          fetchJSON('/api/field-notes'),
+          fetchJSON('/api/testimonials'),
+          fetchJSON('/api/admin/events')
+        ]);
+        renderSignups(signups);
+        renderReferrals(referrals);
+        renderNotes(notes);
+        renderTestimonials(tests);
+        $('#eventSummary').textContent = JSON.stringify(events, null, 2);
+        drawCharts(sizeCounts, timeline);
+      } catch (err) {
+        alert('Failed to load admin data. Check token.');
+      }
+    }
+
+    function renderSignups(rows) {
+      const tbody = $('#signupsTable tbody');
+      tbody.innerHTML = rows.map(row => `<tr><td>${row.name}</td><td>${row.email}</td><td>${row.size}</td><td>${row.confirmed ? 'Yes' : 'No'}</td><td>${row.referralCount || 0}</td><td>${new Date(row.createdAt).toLocaleString()}</td></tr>`).join('');
+    }
+
+    function renderReferrals(rows) {
+      const tbody = $('#referralsTable tbody');
+      tbody.innerHTML = rows.map(row => `<tr><td>${row.name}</td><td>${row.email}</td><td>${row.referralCount}</td><td>${row.referralCode}</td></tr>`).join('');
+    }
+
+    function renderNotes(rows) {
+      const list = $('#notesList');
+      list.innerHTML = rows.map(row => `<li>${row.quote} — ${row.author}</li>`).join('');
+    }
+
+    function renderTestimonials(rows) {
+      const list = $('#testimonialsList');
+      list.innerHTML = rows.map(row => `<li>${row.quote} — ${row.author} (${row.role || 'Supporter'})</li>`).join('');
+    }
+
+    async function addFieldNote() {
+      const quote = $('#noteQuote').value.trim();
+      const author = $('#noteAuthor').value.trim();
+      if (!quote || !author) return;
+      await fetch('/api/admin/field-notes', { method: 'POST', headers: headers(), body: JSON.stringify({ quote, author }) });
+      $('#noteQuote').value = '';
+      $('#noteAuthor').value = '';
+      loadAll();
+    }
+
+    async function addTestimonial() {
+      const quote = $('#testQuote').value.trim();
+      const author = $('#testAuthor').value.trim();
+      const role = $('#testRole').value.trim();
+      if (!quote || !author) return;
+      await fetch('/api/admin/testimonials', { method: 'POST', headers: headers(), body: JSON.stringify({ quote, author, role }) });
+      $('#testQuote').value = '';
+      $('#testAuthor').value = '';
+      $('#testRole').value = '';
+      loadAll();
+    }
+
+    function drawCharts(sizeCounts, timeline) {
+      const sizeCtx = document.getElementById('sizeChart').getContext('2d');
+      const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+      const colors = ['#f7d18b', '#d8b46d', '#f4f0e7', '#c6c8dc', '#8a94b5'];
+      drawBarChart(sizeCtx, Object.keys(sizeCounts), Object.values(sizeCounts), colors);
+      drawLineChart(timelineCtx, timeline.map(row => row.date), timeline.map(row => row.count));
+    }
+
+    function drawBarChart(ctx, labels, data, colors) {
+      ctx.clearRect(0,0,ctx.canvas.width, ctx.canvas.height);
+      const max = Math.max(...data, 1);
+      const width = ctx.canvas.width / data.length;
+      data.forEach((value, index) => {
+        const height = (value / max) * ctx.canvas.height * 0.8;
+        const x = index * width + width * 0.2;
+        const y = ctx.canvas.height - height - 10;
+        ctx.fillStyle = colors[index % colors.length];
+        ctx.fillRect(x, y, width * 0.6, height);
+        ctx.fillStyle = '#f7f9ff';
+        ctx.fillText(labels[index], x, ctx.canvas.height - 2);
+      });
+    }
+
+    function drawLineChart(ctx, labels, data) {
+      ctx.clearRect(0,0,ctx.canvas.width, ctx.canvas.height);
+      const max = Math.max(...data, 1);
+      const step = ctx.canvas.width / Math.max(labels.length - 1, 1);
+      ctx.beginPath();
+      data.forEach((value, index) => {
+        const x = index * step;
+        const y = ctx.canvas.height - (value / max) * ctx.canvas.height * 0.8 - 10;
+        if (index === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.strokeStyle = '#f7d18b';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = '#f7f9ff';
+      labels.forEach((label, index) => {
+        const x = index * step;
+        ctx.fillText(label, x, ctx.canvas.height - 2);
+      });
+    }
+
+    document.getElementById('loadData').addEventListener('click', loadAll);
+    document.getElementById('exportCsv').addEventListener('click', () => {
+      const token = encodeURIComponent(getToken());
+      window.location = `/api/admin/export?token=${token}`;
+    });
+    document.getElementById('addNote').addEventListener('click', addFieldNote);
+    document.getElementById('addTestimonial').addEventListener('click', addTestimonial);
+  </script>
+</body>
+</html>

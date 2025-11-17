@@ -1,0 +1,11 @@
+{
+  "name": "snooom",
+  "version": "1.0.0",
+  "description": "SNOOOM vintage varsity drop site with waitlist backend",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "node server/server.js",
+    "start": "NODE_ENV=production node server/server.js"
+  },
+  "dependencies": {}
+}

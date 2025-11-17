@@ -1,0 +1,178 @@
+{
+  "signups": [],
+  "fieldNotes": [
+    {
+      "id": "7a5185dd-6cc0-4385-9901-ce68089751ec",
+      "quote": "Feels like something you’d thrift once and never find again. The weight, the drape—everything just clicks.",
+      "author": "Nate · Visual Designer",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.854Z",
+      "order": 0
+    },
+    {
+      "id": "9af9c8e3-f79e-43cd-895c-d75b5ef0bf48",
+      "quote": "Has that old athletic department energy, but cleaned up. Like a hoodie they would’ve kept locked in the archives.",
+      "author": "Lex · Creative Runner",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.854Z",
+      "order": 1
+    },
+    {
+      "id": "393d7b41-4fe1-4230-97d0-df7ca12c19a2",
+      "quote": "Wore it from a coffee run to a night session in the studio. Never stretched out, never lost shape.",
+      "author": "Mila · Photographer",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.854Z",
+      "order": 2
+    },
+    {
+      "id": "1d2ed549-352b-4959-bcb0-9f34a77fdd31",
+      "quote": "The embroidery hits in person. People keep asking where it’s from every time I wear it.",
+      "author": "Dre · DJ & Curator",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.854Z",
+      "order": 3
+    },
+    {
+      "id": "c9e6692e-bf4f-4a08-99c2-7734b206d866",
+      "quote": "This is the hoodie I grab when I don’t want to overthink the outfit but still want it to feel intentional.",
+      "author": "Talia · Art Director",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.854Z",
+      "order": 4
+    },
+    {
+      "id": "f6a27920-0916-4a18-adc1-001d58fd5964",
+      "quote": "It has that vintage varsity DNA, but the fit is modern and clean. Not loud, just confident.",
+      "author": "Sage · Creative Consultant",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 5
+    },
+    {
+      "id": "ce7bde17-aae4-4ce1-b1b3-f6ce69de7635",
+      "quote": "Put it on for a flight and kept it on all weekend. Warm, heavy, and weirdly reassuring.",
+      "author": "Emi · DJ & Stylist",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 6
+    },
+    {
+      "id": "4b85dfc6-187d-41dc-a19c-1bce2b7c1e9c",
+      "quote": "The hood actually holds its shape. No floppy sides, no weird collapse. It frames your face properly.",
+      "author": "Jordan · Creative Director",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 7
+    },
+    {
+      "id": "7740a487-d536-44ad-9516-eec2ac25b49c",
+      "quote": "The inside feels like brushed fleece, the outside looks structured and sharp. It photographs insanely well.",
+      "author": "Kei · Filmmaker",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 8
+    },
+    {
+      "id": "3c4543c9-74b5-449c-9e60-4da95d6292c0",
+      "quote": "Finally a hoodie that works for meetings, late-night drives, and early shoots without feeling try-hard.",
+      "author": "Lina · Founder",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 9
+    },
+    {
+      "id": "b66ba8f6-c51d-4356-a828-2fc1e2df48f0",
+      "quote": "It hangs off the shoulders perfectly. Relaxed, but not sloppy. You can tell someone obsessed over the fit.",
+      "author": "Max · Stylist",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 10
+    },
+    {
+      "id": "5b8093dd-d77d-41fb-bbe1-a7dacb13aff6",
+      "quote": "The kind of hoodie that makes jeans, cargos, or sweats all feel like a full fit.",
+      "author": "Ro · Brand Strategist",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 11
+    },
+    {
+      "id": "59e1eba5-fb00-41eb-98bc-779cc2796d96",
+      "quote": "Even after a few washes, the embroidery still looks crisp and raised. No sagging, no fuzz.",
+      "author": "Cam · Textile Designer",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 12
+    },
+    {
+      "id": "4a0d8363-ef13-4ff9-b38d-fd644023b47e",
+      "quote": "You put it on and instantly get that “archive piece” feeling, like it already has a story.",
+      "author": "Imani · Writer",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 13
+    },
+    {
+      "id": "ebe85112-d03e-4ba9-a104-9923e67a31d1",
+      "quote": "Heavy enough for late-night walks, soft enough to crash on the sofa in. Basically lives on my chair now.",
+      "author": "Eli · Producer",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 14
+    },
+    {
+      "id": "994f6641-b66b-4bd9-99ec-9ddad7c468e5",
+      "quote": "The navy, cream and red combo just feels right. Classic but still different from what everyone else is wearing.",
+      "author": "Noor · Creative Assistant",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 15
+    },
+    {
+      "id": "0f7a0947-f5f1-47b3-b321-97a1e6271458",
+      "quote": "It layers over tees and under coats without bunching. Whoever designed the pattern knew what they were doing.",
+      "author": "Jay · Art Student",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 16
+    },
+    {
+      "id": "15a5353b-c677-46b7-825f-a5da32caa0a8",
+      "quote": "Every time I go to hang it back up, I end up putting it back on. That’s the kind of piece this is.",
+      "author": "Hana · Curator",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 17
+    },
+    {
+      "id": "13bfb6f7-8915-4a1b-9bf6-f94b1d19986a",
+      "quote": "The ribbing at the cuffs and hem actually does its job. The silhouette stays clean all day.",
+      "author": "Luca · Motion Designer",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 18
+    },
+    {
+      "id": "9b322b5b-5939-44fa-aeeb-2a9f3aaf46c6",
+      "quote": "It feels built for late nights, early mornings, and everything in between. Quiet, solid, reliable.",
+      "author": "Kai · Creative Producer",
+      "active": true,
+      "createdAt": "2025-11-17T12:42:21.855Z",
+      "order": 19
+    }
+  ],
+  "testimonials": [],
+  "dropWindows": [
+    {
+      "id": "522fdc22-c43e-4aa8-ac45-7978df8d44b0",
+      "name": "Drop 01",
+      "startAt": "2025-11-24T12:42:21.853Z",
+      "endAt": "2025-11-25T12:42:21.853Z",
+      "waitlistCopy": "Waitlist only. Confirm your spot to get first access.",
+      "liveCopy": "Drop window is live — secure your SNOOOM Hoodie now.",
+      "postCopy": "This drop is closed. Join the list for the next run."
+    }
+  ],
+  "events": []
+}
