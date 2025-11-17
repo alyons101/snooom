@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SNOOOM - Vintage varsity. Modern comfort.</title>
+  <title>SNOOOM — Vintage varsity. Modern comfort.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
@@ -137,13 +137,14 @@
       transform: scaleX(1);
     }
 
+    /* Nav cart and account buttons */
     .nav-links .btn {
       padding: 0.45rem 1.4rem;
       font-size: 0.75rem;
       letter-spacing: 0.12em;
       box-shadow: none;
     }
-    .nav-links .btn.account-button {
+    .nav-links .btn.account-btn {
       background: transparent;
       border-color: rgba(255, 255, 255, 0.25);
     }
@@ -152,7 +153,7 @@
       border-color: rgba(255, 255, 255, 0.25);
     }
     .nav-links .btn.snipcart-checkout:hover,
-    .nav-links .btn.account-button:hover {
+    .nav-links .btn.account-btn:hover {
       box-shadow: var(--shadow-base);
     }
     .nav-cart {
@@ -523,12 +524,13 @@
       margin-bottom: 0.5rem;
     }
     .tab-content li::before {
-      content: '-';
+      content: '—';
       position: absolute;
       left: 0;
       color: var(--gold);
     }
 
+    /* Shipping and returns */
     .shipping-returns {
       padding-top: 1rem;
       padding-bottom: 4rem;
@@ -874,6 +876,105 @@
       color: var(--cream);
       cursor: pointer;
     }
+
+    /* Account modal (Supabase auth + orders) */
+    .account-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2100;
+    }
+    .account-modal-backdrop.active {
+      display: flex;
+    }
+    .account-modal {
+      position: relative;
+      background: rgba(6, 12, 30, 0.98);
+      border-radius: 24px;
+      padding: 2rem 2.25rem;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: var(--shadow-hover);
+      border: 1px solid rgba(216, 180, 109, 0.45);
+    }
+    .account-modal h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+    .account-modal p {
+      margin-bottom: 0.5rem;
+    }
+    .account-modal form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .account-modal input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    .account-modal .account-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.25rem;
+    }
+    .account-modal .account-actions .btn {
+      padding-inline: 1.4rem;
+      font-size: 0.8rem;
+    }
+    .account-modal .small-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .account-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+    .account-status {
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+      color: var(--muted);
+    }
+    .account-orders {
+      margin-top: 1.2rem;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+    .account-order-card {
+      border-radius: 14px;
+      padding: 0.75rem 0.9rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 0.6rem;
+    }
+    .account-order-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+    .account-order-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .account-orders h3 {
+      font-size: 1rem;
+    }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
@@ -885,80 +986,6 @@
     .reveal.visible {
       animation: fadeUp 0.85s ease forwards;
     }
-
-    /* Account modal */
-    .account-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 2100;
-    }
-    .account-modal.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .account-modal-inner {
-      background: rgba(6, 12, 30, 0.95);
-      border-radius: 24px;
-      padding: 2rem 2.2rem;
-      max-width: 420px;
-      width: 100%;
-      border: 1px solid rgba(216, 180, 109, 0.4);
-      box-shadow: var(--shadow-base);
-      position: relative;
-    }
-    .account-modal-close {
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      border: none;
-      background: transparent;
-      color: var(--cream);
-      font-size: 1.4rem;
-      cursor: pointer;
-    }
-    .account-modal-inner h3 {
-      margin-bottom: 0.75rem;
-      font-size: 1.3rem;
-    }
-    .account-modal-inner p {
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-    #account-auth-form input {
-      width: 100%;
-      padding: 0.8rem 1rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(0, 0, 0, 0.35);
-      color: var(--text);
-      font-size: 0.9rem;
-      margin-bottom: 0.75rem;
-    }
-    .account-actions {
-      display: flex;
-      gap: 0.75rem;
-      margin-top: 0.25rem;
-    }
-    .account-actions .btn {
-      flex: 1;
-      padding: 0.7rem 1rem;
-      font-size: 0.8rem;
-    }
-    #account-message {
-      font-size: 0.9rem;
-    }
-    #account-view-logged-in p {
-      margin-bottom: 1.5rem;
-    }
-
     @media (max-width: 768px) {
       nav {
         flex-direction: column;
@@ -979,8 +1006,9 @@
       .field-notes-wrapper {
         grid-template-columns: 1fr;
       }
-      .account-modal-inner {
-        margin: 0 1.5rem;
+      .account-modal {
+        margin: 1.5rem;
+        padding-inline: 1.5rem;
       }
     }
   </style>
@@ -998,7 +1026,7 @@
         <a href="#shipping">Shipping</a>
         <a href="#drop">Drop</a>
         <a href="#ceo">CEO</a>
-        <button type="button" class="btn account-button">Account</button>
+        <button type="button" class="btn account-btn" id="account-button">Account</button>
         <div class="snipcart-summary nav-cart">
           <button type="button" class="btn snipcart-checkout">
             Cart <span class="snipcart-items-count">0</span>
@@ -1090,7 +1118,7 @@
         </article>
         <article class="card reveal">
           <h3>Heavyweight comfort</h3>
-          <p>400g heavyweight fleece with a brushed interior delivers warmth without bulk - perfect for early mornings, cold commutes, and late-night sessions.</p>
+          <p>400g heavyweight fleece with a brushed interior delivers warmth without bulk — perfect for early mornings, cold commutes, and late-night sessions.</p>
         </article>
         <article class="card reveal">
           <h3>Longevity</h3>
@@ -1139,6 +1167,7 @@
       <div class="tab-content" id="tab-content"></div>
     </section>
 
+    <!-- Shipping & Returns -->
     <section class="shipping-returns" id="shipping">
       <h2 class="section-title reveal">Shipping &amp; Returns</h2>
       <div class="shipping-grid">
@@ -1249,13 +1278,13 @@
     <section id="ceo" class="ceo-section">
       <div class="ceo-content reveal">
         <h2>Meet the Founder</h2>
-        <h3>Aaron Lyons - CEO &amp; Creative Lead</h3>
+        <h3>Aaron Lyons — CEO &amp; Creative Lead</h3>
         <p class="ceo-story">
-          SNOOOM started because I could never find a hoodie that actually fit my life. Everything was either cheap, too loud, or just did not feel right. I wanted something I could wear to school, chill in, travel in, go out in - all without switching fits.
+          SNOOOM started because I could never find a hoodie that actually fit my life. Everything was either cheap, too loud, or just didn’t feel right. I wanted something I could wear to school, chill in, travel in, go out in — all without switching fits.
           <br><br>
           Nothing hit the way I wanted, so I made it myself. SNOOOM is built for people who want something clean, solid, and versatile without trying too hard.
           <br><br>
-          The goal was simple: make a hoodie that becomes your everyday one - the piece you grab without thinking because it always looks and feels right.
+          The goal was simple: make a hoodie that becomes your everyday one — the piece you grab without thinking because it always looks and feels right.
         </p>
       </div>
     </section>
@@ -1271,42 +1300,372 @@
     <img class="lightbox-img" src="" alt="Expanded view">
   </div>
 
-  <!-- Account modal using Supabase Auth -->
-  <div id="account-modal" class="account-modal">
-    <div class="account-modal-inner">
-      <button class="account-modal-close" type="button">&times;</button>
+  <!-- Account modal (Supabase auth + orders) -->
+  <div id="account-modal-backdrop" class="account-modal-backdrop">
+    <div class="account-modal">
+      <span class="account-modal-close">&times;</span>
+      <h2>Account</h2>
+      <p class="account-status" id="account-status-text">
+        Sign in to track your orders and manage your account.
+      </p>
 
-      <div id="account-view-logged-out">
-        <h3>Your account</h3>
-        <p>Sign in or create an account to manage your drop list and keep your details saved.</p>
-        <form id="account-auth-form">
-          <input type="email" id="account-email" placeholder="you@email.com" autocomplete="email" required>
-          <input type="password" id="account-password" placeholder="Password" autocomplete="current-password" required>
-          <div class="account-actions">
-            <button type="submit" class="btn primary" data-mode="signin">Sign in</button>
-            <button type="button" id="account-signup-btn" class="btn">Create account</button>
-          </div>
-        </form>
-        <p id="account-message" class="message"></p>
+      <form id="account-auth-form">
+        <input type="email" id="account-email" placeholder="you@email.com" autocomplete="email">
+        <input type="password" id="account-password" placeholder="Password" autocomplete="current-password">
+        <div class="account-actions">
+          <button type="button" class="btn primary" id="account-login-button">Log in</button>
+          <button type="button" class="btn" id="account-signup-button">Create account</button>
+        </div>
+        <p class="small-text">
+          When you sign up, you will receive an email to confirm your account.
+        </p>
+      </form>
+
+      <div id="account-logged-in-controls" style="display:none;">
+        <p class="account-status" id="account-user-email"></p>
+        <button type="button" class="btn" id="account-logout-button">Sign out</button>
+
+        <div class="account-orders">
+          <h3>Your orders</h3>
+          <div id="account-orders-list"></div>
+        </div>
       </div>
 
-      <div id="account-view-logged-in" style="display:none;">
-        <h3>Your account</h3>
-        <p id="account-email-display"></p>
-        <button type="button" id="account-logout-btn" class="btn primary">Sign out</button>
-      </div>
+      <p id="account-message" class="small-text" style="margin-top:0.75rem;"></p>
     </div>
   </div>
 
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase client -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
   <script>
+    // Supabase config
     const SUPABASE_URL = 'https://mlsqmogftuvrmsbumite.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sc3Ftb2dmdHV2cm1zYnVtaXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzOTkwMDUsImV4cCI6MjA3ODk3NTAwNX0.jAagO0GygbyegkTzYo3wrhzAlbmecjmv0Do--WqknG4';
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let cachedUser = null;
 
+    // Account modal elements
+    const accountButton = document.getElementById('account-button');
+    const accountModalBackdrop = document.getElementById('account-modal-backdrop');
+    const accountModalClose = document.querySelector('.account-modal-close');
+    const accountStatusText = document.getElementById('account-status-text');
+    const accountAuthForm = document.getElementById('account-auth-form');
+    const accountEmailInput = document.getElementById('account-email');
+    const accountPasswordInput = document.getElementById('account-password');
+    const accountLoginButton = document.getElementById('account-login-button');
+    const accountSignupButton = document.getElementById('account-signup-button');
+    const accountLoggedInControls = document.getElementById('account-logged-in-controls');
+    const accountUserEmail = document.getElementById('account-user-email');
+    const accountLogoutButton = document.getElementById('account-logout-button');
+    const accountMessageEl = document.getElementById('account-message');
+    const accountOrdersList = document.getElementById('account-orders-list');
+
+    function setAccountMessage(text, color) {
+      if (!accountMessageEl) return;
+      accountMessageEl.textContent = text || '';
+      if (color) accountMessageEl.style.color = color;
+    }
+
+    function updateAccountUi() {
+      const loggedIn = !!cachedUser;
+      if (!accountButton) return;
+
+      if (loggedIn) {
+        accountButton.textContent = 'Account';
+        if (accountStatusText) {
+          accountStatusText.textContent = 'You are signed in. View your orders or sign out.';
+        }
+        if (accountAuthForm) accountAuthForm.style.display = 'none';
+        if (accountLoggedInControls) accountLoggedInControls.style.display = 'block';
+        if (accountUserEmail) {
+          accountUserEmail.textContent = cachedUser.email || '';
+        }
+      } else {
+        accountButton.textContent = 'Account';
+        if (accountStatusText) {
+          accountStatusText.textContent = 'Sign in to track your orders and manage your account.';
+        }
+        if (accountAuthForm) accountAuthForm.style.display = 'block';
+        if (accountLoggedInControls) accountLoggedInControls.style.display = 'none';
+      }
+    }
+
+    async function refreshSupabaseUser() {
+      try {
+        const { data, error } = await supabaseClient.auth.getUser();
+        if (error) {
+          console.error('Supabase getUser error', error);
+        }
+        cachedUser = data && data.user ? data.user : null;
+        updateAccountUi();
+
+        // If Snipcart is ready, sync cart email with Supabase user
+        if (cachedUser && cachedUser.email && window.Snipcart && window.Snipcart.api && window.Snipcart.api.cart) {
+          try {
+            window.Snipcart.api.cart.update({ email: cachedUser.email });
+          } catch (err) {
+            console.error('Snipcart email sync failed', err);
+          }
+        }
+      } catch (err) {
+        console.error('Supabase auth error', err);
+      }
+    }
+
+    function openAccountModal() {
+      if (accountModalBackdrop) {
+        accountModalBackdrop.classList.add('active');
+        setAccountMessage('', '');
+        updateAccountUi();
+        if (cachedUser) {
+          fetchAndRenderOrders();
+        }
+      }
+    }
+
+    function closeAccountModal() {
+      if (accountModalBackdrop) {
+        accountModalBackdrop.classList.remove('active');
+      }
+    }
+
+    if (accountButton) {
+      accountButton.addEventListener('click', () => {
+        openAccountModal();
+      });
+    }
+    if (accountModalClose) {
+      accountModalClose.addEventListener('click', closeAccountModal);
+    }
+    if (accountModalBackdrop) {
+      accountModalBackdrop.addEventListener('click', (e) => {
+        if (e.target === accountModalBackdrop) {
+          closeAccountModal();
+        }
+      });
+    }
+
+    async function handleAccountLogin() {
+      const email = (accountEmailInput && accountEmailInput.value.trim()) || '';
+      const password = (accountPasswordInput && accountPasswordInput.value) || '';
+
+      if (!email || !password) {
+        setAccountMessage('Add your email and password to sign in.', '#ff7b7b');
+        return;
+      }
+      setAccountMessage('Signing in...', '#d1a655');
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+      if (error) {
+        console.error('Supabase login error', error);
+        setAccountMessage(error.message || 'Unable to sign in.', '#ff7b7b');
+        return;
+      }
+      cachedUser = data && data.user ? data.user : null;
+      setAccountMessage('Signed in.', '#d1a655');
+      updateAccountUi();
+      fetchAndRenderOrders();
+
+      // Sync Snipcart cart email if possible
+      if (cachedUser && cachedUser.email && window.Snipcart && window.Snipcart.api && window.Snipcart.api.cart) {
+        try {
+          window.Snipcart.api.cart.update({ email: cachedUser.email });
+        } catch (err) {
+          console.error('Snipcart email sync failed', err);
+        }
+      }
+    }
+
+    async function handleAccountSignup() {
+      const email = (accountEmailInput && accountEmailInput.value.trim()) || '';
+      const password = (accountPasswordInput && accountPasswordInput.value) || '';
+
+      if (!email || !password) {
+        setAccountMessage('Add your email and a password to create an account.', '#ff7b7b');
+        return;
+      }
+      setAccountMessage('Creating account...', '#d1a655');
+
+      const redirectTo = window.location.origin + window.location.pathname;
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectTo
+        }
+      });
+
+      if (error) {
+        console.error('Supabase signup error', error);
+        setAccountMessage(error.message || 'Unable to create account.', '#ff7b7b');
+        return;
+      }
+
+      setAccountMessage('Check your email to confirm your account, then come back here to sign in.', '#d1a655');
+    }
+
+    async function handleAccountLogout() {
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) {
+        console.error('Supabase logout error', error);
+        setAccountMessage('Unable to sign out right now.', '#ff7b7b');
+        return;
+      }
+      cachedUser = null;
+      updateAccountUi();
+      setAccountMessage('Signed out.', '#d1a655');
+    }
+
+    if (accountLoginButton) {
+      accountLoginButton.addEventListener('click', handleAccountLogin);
+    }
+    if (accountSignupButton) {
+      accountSignupButton.addEventListener('click', handleAccountSignup);
+    }
+    if (accountLogoutButton) {
+      accountLogoutButton.addEventListener('click', handleAccountLogout);
+    }
+
+    async function fetchAndRenderOrders() {
+      if (!cachedUser || !accountOrdersList) return;
+      accountOrdersList.innerHTML = '<p class="account-order-meta">Loading your orders...</p>';
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('orders')
+          .select('id, created_at, total, currency, invoice_number, snipcart_token, status, items')
+          .eq('supabase_user_id', cachedUser.id)
+          .order('created_at', { ascending: false })
+          .limit(20);
+
+        if (error) {
+          console.error('Supabase orders fetch error', error);
+          accountOrdersList.innerHTML = '<p class="account-order-meta">Unable to load orders right now.</p>';
+          return;
+        }
+
+        if (!data || !data.length) {
+          accountOrdersList.innerHTML = '<p class="account-order-meta">When you complete your first purchase, it will appear here.</p>';
+          return;
+        }
+
+        accountOrdersList.innerHTML = '';
+        data.forEach((order) => {
+          const div = document.createElement('div');
+          div.className = 'account-order-card';
+
+          const date = order.created_at ? new Date(order.created_at) : null;
+          const formattedDate = date
+            ? date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+            : '';
+
+          const primaryId = order.invoice_number || order.snipcart_token || order.id;
+          const items = Array.isArray(order.items) ? order.items : [];
+          const itemNames = items
+            .map((item) => item && item.name)
+            .filter(Boolean)
+            .slice(0, 3)
+            .join(', ');
+
+          const totalText =
+            order.total != null
+              ? `${Number(order.total).toFixed(2)} ${order.currency || ''}`.trim()
+              : '';
+
+          div.innerHTML = `
+            <h4>${primaryId ? 'Order #' + primaryId : 'Order'}</h4>
+            <p class="account-order-meta">
+              ${formattedDate ? formattedDate : ''}${formattedDate && totalText ? ' • ' : ''}${totalText}
+            </p>
+            ${itemNames ? `<p class="account-order-meta">Items: ${itemNames}${items.length > 3 ? ' +' + (items.length - 3) + ' more' : ''}</p>` : ''}
+            ${order.status ? `<p class="account-order-meta">Status: ${order.status}</p>` : ''}
+          `;
+          accountOrdersList.appendChild(div);
+        });
+      } catch (err) {
+        console.error('Orders render error', err);
+        accountOrdersList.innerHTML = '<p class="account-order-meta">Unable to load orders right now.</p>';
+      }
+    }
+
+    // Sync completed Snipcart orders into Supabase "orders" table
+    function setupSnipcartOrderSync() {
+      if (!window.Snipcart || !window.Snipcart.events) return;
+
+      window.Snipcart.events.on('cart.confirmed', async (cartState) => {
+        try {
+          const { data, error: authError } = await supabaseClient.auth.getUser();
+          if (authError) {
+            console.error('Supabase getUser error inside Snipcart hook', authError);
+          }
+          const user = data && data.user ? data.user : null;
+          if (!user) {
+            // Order will still complete in Snipcart, but we only sync orders when a Supabase user is logged in
+            return;
+          }
+
+          const items = Array.isArray(cartState.items)
+            ? cartState.items.map((item) => ({
+                id: item.id,
+                name: item.name,
+                quantity: item.quantity,
+                price: item.unitPrice != null ? item.unitPrice : item.basePrice
+              }))
+            : [];
+
+          const payload = {
+            supabase_user_id: user.id,
+            customer_email: cartState.email || user.email,
+            snipcart_token: cartState.token,
+            status: String(cartState.status),
+            total: cartState.total,
+            currency: cartState.currency,
+            invoice_number: cartState.invoiceNumber || null,
+            items
+          };
+
+          const { error } = await supabaseClient.from('orders').insert(payload);
+          if (error) {
+            console.error('Supabase orders insert error', error);
+          } else {
+            // Refresh orders if account modal is open
+            const isModalOpen = accountModalBackdrop && accountModalBackdrop.classList.contains('active');
+            if (isModalOpen) {
+              fetchAndRenderOrders();
+            }
+          }
+        } catch (err) {
+          console.error('Supabase order sync failed', err);
+        }
+      });
+
+      // If we already have a user at this point, sync Snipcart email once
+      if (cachedUser && cachedUser.email && window.Snipcart.api && window.Snipcart.api.cart) {
+        try {
+          window.Snipcart.api.cart.update({ email: cachedUser.email });
+        } catch (err) {
+          console.error('Snipcart email sync failed', err);
+        }
+      }
+    }
+
+    // Initial Supabase user check
+    refreshSupabaseUser();
+
+    // Wait for Snipcart to be ready, then hook into events
+    document.addEventListener('snipcart.ready', () => {
+      setupSnipcartOrderSync();
+    });
+  </script>
+
+  <!-- Existing site JS (unchanged except it now coexists with Supabase account) -->
+  <script>
     const revealObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1327,7 +1686,7 @@
             <li>80% premium brushed cotton</li>
             <li>20% durable polyester for structure</li>
             <li>Heavyweight fleece interior for maximum comfort</li>
-            <li>High-density embroidered "SNOOOM" chest graphic</li>
+            <li>High-density embroidered “SNOOOM” chest graphic</li>
             <li>Reinforced hood and pocket stitching for longevity</li>
           </ul>
         </div>
@@ -1385,16 +1744,23 @@
     const clientIdKey = 'snooom-user-id';
     let clientId = localStorage.getItem(clientIdKey);
     if (!clientId) {
-      clientId = crypto.randomUUID ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(16).slice(2));
+      clientId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
       localStorage.setItem(clientIdKey, clientId);
     }
 
     function logEvent(type, metadata = {}) {
-      // Supabase events table can be wired here if you create it
-      // For now this is a no-op to avoid breaking if the table is missing
-      if (window && window.console && console.debug) {
-        console.debug('Event', type, metadata);
+      const payload = JSON.stringify({ type, userId: clientId, metadata });
+      if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+        const blob = new Blob([payload], { type: 'application/json' });
+        navigator.sendBeacon('/api/events', blob);
+        return;
       }
+      fetch('/api/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload,
+        keepalive: true
+      }).catch(() => {});
     }
 
     logEvent('page_view', { ref: referralParam || null });
@@ -1422,20 +1788,12 @@
 
     async function hydrateDropState() {
       try {
-        const { data, error } = await supabaseClient
-          .from('drop_state')
-          .select('state,message')
-          .order('created_at', { ascending: false })
-          .limit(1);
-        if (error || !data || !data.length) {
-          throw error || new Error('no state');
-        }
-        const stateRow = data[0];
-        if (dropStateMessageEl && stateRow.message) {
-          dropStateMessageEl.textContent = stateRow.message;
-        }
-        applyCtaState(stateRow.state || 'waitlist');
-        logEvent('drop_state', { state: stateRow.state });
+        const res = await fetch('/api/drop-state');
+        if (!res.ok) throw new Error('network');
+        const state = await res.json();
+        if (dropStateMessageEl) dropStateMessageEl.textContent = state.message;
+        applyCtaState(state.state);
+        logEvent('drop_state', { state: state.state });
       } catch (err) {
         if (dropStateMessageEl) {
           dropStateMessageEl.textContent = 'Waitlist is open. Confirm your spot to get early access.';
@@ -1458,15 +1816,14 @@
       }
     }
 
-    notifyForm && notifyForm.addEventListener('submit', async e => {
+    notifyForm?.addEventListener('submit', async e => {
       e.preventDefault();
       if (!nameInput || !emailInput || !sizeSelect) return;
       const payload = {
         name: nameInput.value.trim(),
         email: emailInput.value.trim(),
         size: sizeSelect.value,
-        referral_code: referralParam || null,
-        client_id: clientId
+        referralCode: referralParam || undefined
       };
       if (!payload.name || !payload.email || !payload.size) {
         if (message) {
@@ -1482,36 +1839,28 @@
       }
       if (submitButton) submitButton.disabled = true;
       try {
-        const { data, error } = await supabaseClient
-          .from('signups')
-          .insert([payload])
-          .select()
-          .limit(1);
-        if (error) throw error;
-        const row = data && data.length ? data[0] : {};
+        const res = await fetch('/api/signups', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Unable to save signup.');
         if (message) {
-          message.textContent = 'You are on the list. Check your inbox for a confirmation email.';
+          message.textContent = data.message;
           message.style.color = '#d1a655';
         }
         if (accessCodeEl) {
-          const code = row.early_access_code || row.access_code || '';
-          accessCodeEl.textContent = code ? ('Your Early Access Code: ' + code) : '';
+          accessCodeEl.textContent = data.earlyAccessCode ? `Your Early Access Code: ${data.earlyAccessCode}` : '';
         }
         if (referralLinkEl) {
-          const baseUrl = window.location.origin + window.location.pathname;
-          const referralCode = row.referral_code || row.id || null;
-          if (referralCode) {
-            const link = baseUrl + '?ref=' + encodeURIComponent(referralCode);
-            referralLinkEl.innerHTML = 'Share your link: <a href="' + link + '" target="_blank" rel="noreferrer">' + link + '</a>';
-          } else {
-            referralLinkEl.textContent = '';
-          }
+          referralLinkEl.innerHTML = data.referralLink ? `Share your link: <a href="${data.referralLink}" target="_blank" rel="noreferrer">${data.referralLink}</a>` : '';
         }
         logEvent('waitlist_submitted', { status: 'success', size: payload.size });
         notifyForm.reset();
       } catch (err) {
         if (message) {
-          message.textContent = (err && err.message) || 'Unable to save signup right now.';
+          message.textContent = err.message || 'Unable to save signup right now.';
           message.style.color = '#ff7b7b';
         }
         if (accessCodeEl) accessCodeEl.textContent = '';
@@ -1528,9 +1877,9 @@
         const size = Math.max(rect.width, rect.height);
         const ripple = document.createElement('span');
         ripple.className = 'ripple';
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        ripple.style.width = ripple.style.height = `${size}px`;
+        ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+        ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
         btn.appendChild(ripple);
         ripple.addEventListener('animationend', () => ripple.remove());
       });
@@ -1543,7 +1892,7 @@
 
     const updateParallax = () => {
       parallaxCurrent += (parallaxTarget - parallaxCurrent) * 0.08;
-      if (hoodie) hoodie.style.transform = 'translateY(' + parallaxCurrent + 'px)';
+      if (hoodie) hoodie.style.transform = `translateY(${parallaxCurrent}px)`;
       if (Math.abs(parallaxTarget - parallaxCurrent) > 0.1) {
         parallaxRAF = requestAnimationFrame(updateParallax);
       } else {
@@ -1587,7 +1936,7 @@
     let qtyValue = 1;
     const updateQtyDisplay = () => {
       if (qtyNumberEl) qtyNumberEl.textContent = qtyValue;
-      if (addToCartBtn) addToCartBtn.setAttribute('data-item-quantity', String(qtyValue));
+      if (addToCartBtn) addToCartBtn.setAttribute('data-item-quantity', qtyValue);
     };
     updateQtyDisplay();
 
@@ -1603,11 +1952,11 @@
     });
 
     const fallbackFieldNotes = [
-      { quote: '“Feels like something you would thrift once and never find again. The weight, the drape - everything just clicks.”', author: 'Nate · Visual Designer' },
-      { quote: '“Has that old athletic department energy, but cleaned up. Like a hoodie they would have kept locked in the archives.”', author: 'Lex · Creative Runner' },
+      { quote: '“Feels like something you’d thrift once and never find again. The weight, the drape, everything just clicks.”', author: 'Nate · Visual Designer' },
+      { quote: '“Has that old athletic department energy, but cleaned up. Like a hoodie they would’ve kept locked in the archives.”', author: 'Lex · Creative Runner' },
       { quote: '“Wore it from a coffee run to a night session in the studio. Never stretched out, never lost shape.”', author: 'Mila · Photographer' },
-      { quote: '“The embroidery hits in person. People keep asking where it is from every time I wear it.”', author: 'Dre · DJ & Curator' },
-      { quote: '“This is the hoodie I grab when I do not want to overthink the outfit but still want it to feel intentional.”', author: 'Talia · Art Director' },
+      { quote: '“The embroidery hits in person. People keep asking where it’s from every time I wear it.”', author: 'Dre · DJ & Curator' },
+      { quote: '“This is the hoodie I grab when I don’t want to overthink the outfit but still want it to feel intentional.”', author: 'Talia · Art Director' },
       { quote: '“It has that old athletic department DNA, but the fit is modern and clean. Not loud, just confident.”', author: 'Sage · Creative Consultant' },
       { quote: '“Put it on for a flight and kept it on all weekend. Warm, heavy, and weirdly reassuring.”', author: 'Emi · DJ & Stylist' },
       { quote: '“The hood actually holds its shape. No floppy sides, no weird collapse. It frames your face properly.”', author: 'Jordan · Creative Director' },
@@ -1616,11 +1965,11 @@
       { quote: '“It hangs off the shoulders perfectly. Relaxed, but not sloppy. You can tell someone obsessed over the fit.”', author: 'Max · Stylist' },
       { quote: '“The kind of hoodie that makes jeans, cargos, or sweats all feel like a full fit.”', author: 'Ro · Brand Strategist' },
       { quote: '“Even after a few washes, the embroidery still looks crisp and raised. No sagging, no fuzz.”', author: 'Cam · Textile Designer' },
-      { quote: '“You put it on and instantly get that archive piece feeling, like it already has a story.”', author: 'Imani · Writer' },
+      { quote: '“You put it on and instantly get that ‘archive piece’ feeling, like it already has a story.”', author: 'Imani · Writer' },
       { quote: '“Heavy enough for late-night walks, soft enough to crash on the sofa in. Basically lives on my chair now.”', author: 'Eli · Producer' },
       { quote: '“The navy, cream and red combo just feels right. Classic but still different from what everyone else is wearing.”', author: 'Noor · Creative Assistant' },
       { quote: '“It layers over tees and under coats without bunching. Whoever designed the pattern knew what they were doing.”', author: 'Jay · Art Student' },
-      { quote: '“Every time I go to hang it back up, I end up putting it back on. That is the kind of piece this is.”', author: 'Hana · Curator' },
+      { quote: '“Every time I go to hang it back up, I end up putting it back on. That’s the kind of piece this is.”', author: 'Hana · Curator' },
       { quote: '“The ribbing at the cuffs and hem actually does its job. The silhouette stays clean all day.”', author: 'Luca · Motion Designer' },
       { quote: '“It feels built for late nights, early mornings, and everything in between. Quiet, solid, reliable.”', author: 'Kai · Creative Producer' }
     ];
@@ -1636,14 +1985,9 @@
     async function loadFieldNotes() {
       let data = [];
       try {
-        const { data: notes, error } = await supabaseClient
-          .from('field_notes')
-          .select('quote,author')
-          .order('id', { ascending: true });
-        if (error || !notes || !notes.length) {
-          throw error || new Error('no notes');
-        }
-        data = notes;
+        const res = await fetch('/api/field-notes');
+        if (!res.ok) throw new Error('network');
+        data = await res.json();
       } catch (err) {
         data = fallbackFieldNotes;
       }
@@ -1702,7 +2046,7 @@
         card.classList.toggle('active', idx === index);
       });
       triggerProgress();
-      logEvent('field_note_rotate', { index: index });
+      logEvent('field_note_rotate', { index });
     }
 
     function startNoteRotation() {
@@ -1785,156 +2129,13 @@
         openLightbox(currentLightboxIndex);
       }
     });
-
-    // Supabase Auth account modal
-    const accountModal = document.getElementById('account-modal');
-    const accountBtn = document.querySelector('.account-button');
-    const accountCloseBtn = document.querySelector('.account-modal-close');
-    const accountAuthForm = document.getElementById('account-auth-form');
-    const accountSignupBtn = document.getElementById('account-signup-btn');
-    const accountMessage = document.getElementById('account-message');
-    const accountViewLoggedOut = document.getElementById('account-view-logged-out');
-    const accountViewLoggedIn = document.getElementById('account-view-logged-in');
-    const accountEmailInput = document.getElementById('account-email');
-    const accountPasswordInput = document.getElementById('account-password');
-    const accountEmailDisplay = document.getElementById('account-email-display');
-    const accountLogoutBtn = document.getElementById('account-logout-btn');
-
-    function openAccountModal() {
-      if (!accountModal) return;
-      accountModal.classList.add('active');
-      refreshAccountUI();
-    }
-
-    function closeAccountModal() {
-      if (!accountModal) return;
-      accountModal.classList.remove('active');
-    }
-
-    accountBtn && accountBtn.addEventListener('click', e => {
-      e.preventDefault();
-      openAccountModal();
-    });
-
-    accountCloseBtn && accountCloseBtn.addEventListener('click', () => {
-      closeAccountModal();
-    });
-
-    accountModal && accountModal.addEventListener('click', e => {
-      if (e.target === accountModal) {
-        closeAccountModal();
-      }
-    });
-
-    async function refreshAccountUI() {
-      if (!accountViewLoggedOut || !accountViewLoggedIn) return;
-      try {
-        const { data, error } = await supabaseClient.auth.getUser();
-        if (error || !data || !data.user) {
-          accountViewLoggedOut.style.display = 'block';
-          accountViewLoggedIn.style.display = 'none';
-          return;
-        }
-        const user = data.user;
-        accountViewLoggedOut.style.display = 'none';
-        accountViewLoggedIn.style.display = 'block';
-        if (accountEmailDisplay) {
-          accountEmailDisplay.textContent = 'Signed in as ' + (user.email || '');
-        }
-      } catch (err) {
-        accountViewLoggedOut.style.display = 'block';
-        accountViewLoggedIn.style.display = 'none';
-      }
-    }
-
-    supabaseClient.auth.onAuthStateChange(() => {
-      refreshAccountUI();
-    });
-
-    accountAuthForm && accountAuthForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      if (!accountEmailInput || !accountPasswordInput) return;
-      const email = accountEmailInput.value.trim();
-      const password = accountPasswordInput.value;
-      if (!email || !password) {
-        if (accountMessage) {
-          accountMessage.textContent = 'Add email and password to sign in.';
-          accountMessage.style.color = '#ff7b7b';
-        }
-        return;
-      }
-      if (accountMessage) {
-        accountMessage.textContent = 'Signing in...';
-        accountMessage.style.color = '#d1a655';
-      }
-      try {
-        const { error } = await supabaseClient.auth.signInWithPassword({ email: email, password: password });
-        if (error) {
-          throw error;
-        }
-        if (accountMessage) {
-          accountMessage.textContent = 'Signed in.';
-          accountMessage.style.color = '#d1a655';
-        }
-        refreshAccountUI();
-      } catch (err) {
-        if (accountMessage) {
-          accountMessage.textContent = (err && err.message) || 'Unable to sign in.';
-          accountMessage.style.color = '#ff7b7b';
-        }
-      }
-    });
-
-    accountSignupBtn && accountSignupBtn.addEventListener('click', async () => {
-      if (!accountEmailInput || !accountPasswordInput) return;
-      const email = accountEmailInput.value.trim();
-      const password = accountPasswordInput.value;
-      if (!email || !password) {
-        if (accountMessage) {
-          accountMessage.textContent = 'Add email and password to create an account.';
-          accountMessage.style.color = '#ff7b7b';
-        }
-        return;
-      }
-      if (accountMessage) {
-        accountMessage.textContent = 'Creating account...';
-        accountMessage.style.color = '#d1a655';
-      }
-      try {
-        const { error } = await supabaseClient.auth.signUp({ email: email, password: password });
-        if (error) {
-          throw error;
-        }
-        if (accountMessage) {
-          accountMessage.textContent = 'Account created. Check your email for confirmation if required, then sign in.';
-          accountMessage.style.color = '#d1a655';
-        }
-      } catch (err) {
-        if (accountMessage) {
-          accountMessage.textContent = (err && err.message) || 'Unable to create account.';
-          accountMessage.style.color = '#ff7b7b';
-        }
-      }
-    });
-
-    accountLogoutBtn && accountLogoutBtn.addEventListener('click', async () => {
-      try {
-        await supabaseClient.auth.signOut();
-        refreshAccountUI();
-      } catch (err) {
-        if (accountMessage) {
-          accountMessage.textContent = 'Unable to sign out right now.';
-          accountMessage.style.color = '#ff7b7b';
-        }
-      }
-    });
   </script>
 
   <!-- Snipcart loader -->
   <script>
     window.SnipcartSettings = {
       publicApiKey: 'MzRjMmE0YmQtOGI5Mi00ZmUwLWFjMWItODRkOGU5NWY4Njk5NjM4OTg5ODk4MjI5MDY0Njc1',
-      loadStrategy: 'on-user-interaction'
+      loadStrategy: 'on-user-interaction',
     };
 
     (()=>{var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var f=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,m=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(m.forEach(t=>document.addEventListener(t,o)),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],e=document.querySelector("#snipcart"),i=document.querySelector(`src[src^="${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}"][src$="snipcart.js"]`),n=document.querySelector(`link[href^="${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}"][href$="snipcart.css"]`);e||(e=document.createElement("div"),e.id="snipcart",e.setAttribute("hidden","true"),document.body.appendChild(e)),v(e),i||(i=document.createElement("script"),i.src=`${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}/themes/v${window.SnipcartSettings.version}/default/snipcart.js`,i.async=!0,t.appendChild(i)),n||(n=document.createElement("link"),n.rel="stylesheet",n.type="text/css",n.href=`${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}/themes/v${window.SnipcartSettings.version}/default/snipcart.css`,t.prepend(n)),m.forEach(g=>document.removeEventListener(g,o))}function v(t){!f||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
