@@ -136,6 +136,40 @@
     .nav-links a:hover::after {
       transform: scaleX(1);
     }
+
+    /* Nav cart and account buttons */
+    .nav-links .btn {
+      padding: 0.45rem 1.4rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      box-shadow: none;
+    }
+    .nav-links .btn.snipcart-user-profile {
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .nav-links .btn.snipcart-checkout {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .nav-links .btn.snipcart-checkout:hover,
+    .nav-links .btn.snipcart-user-profile:hover {
+      box-shadow: var(--shadow-base);
+    }
+    .nav-cart {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .snipcart-items-count {
+      margin-left: 0.25rem;
+    }
+    .snipcart-total-price {
+      margin-left: 0.5rem;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
     main {
       margin-top: 100px;
     }
@@ -327,6 +361,10 @@
       box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
       outline: none;
     }
+    .size-selector button.active {
+      background: rgba(244, 240, 231, 0.9);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+    }
     .quantity-selector {
       display: inline-flex;
       align-items: center;
@@ -407,7 +445,8 @@
     .about,
     .testimonials,
     .drop,
-    .ceo-section {
+    .ceo-section,
+    .shipping-returns {
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -490,6 +529,23 @@
       left: 0;
       color: var(--gold);
     }
+
+    /* Shipping and returns */
+    .shipping-returns {
+      padding-top: 1rem;
+      padding-bottom: 4rem;
+    }
+    .shipping-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .shipping-note {
+      margin-top: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
     .size-guide .card table {
       width: 100%;
       border-collapse: collapse;
@@ -864,9 +920,16 @@
         <a href="#hero">Hero</a>
         <a href="#floating">Product</a>
         <a href="#details">Details</a>
+        <a href="#shipping">Shipping</a>
         <a href="#drop">Drop</a>
         <a href="#ceo">CEO</a>
-        <button type="button" class="btn snipcart-checkout">Cart</button>
+        <button type="button" class="btn snipcart-user-profile">Account</button>
+        <div class="snipcart-summary nav-cart">
+          <button type="button" class="btn snipcart-checkout">
+            Cart <span class="snipcart-items-count">0</span>
+            <span class="snipcart-total-price"></span>
+          </button>
+        </div>
       </div>
     </nav>
   </header>
@@ -917,6 +980,10 @@
               data-item-price="168.00"
               data-item-url="/"
               data-item-description="Vintage varsity hoodie in heavyweight fleece"
+              data-item-custom1-name="Size"
+              data-item-custom1-options="S|M|L|XL|XXL"
+              data-item-custom1-required="true"
+              data-item-quantity="1"
             >
               Add to cart
             </button>
@@ -995,6 +1062,35 @@
         <button class="tab-btn" data-tab="wash">Wash &amp; Care</button>
       </div>
       <div class="tab-content" id="tab-content"></div>
+    </section>
+
+    <!-- Shipping & Returns -->
+    <section class="shipping-returns" id="shipping">
+      <h2 class="section-title reveal">Shipping &amp; Returns</h2>
+      <div class="shipping-grid">
+        <article class="card reveal">
+          <h3>Shipping</h3>
+          <p>We pack and ship each SNOOOM Hoodie with care so it arrives ready to wear.</p>
+          <ul>
+            <li>Tracked shipping on every order</li>
+            <li>Processing time usually 1 to 3 business days</li>
+            <li>Shipping confirmation with tracking link sent to your inbox</li>
+          </ul>
+        </article>
+        <article class="card reveal">
+          <h3>Returns</h3>
+          <p>If the fit is not right, you still have options.</p>
+          <ul>
+            <li>Easy returns within 14 days of delivery on unworn items</li>
+            <li>Exchange for a different size where stock allows</li>
+            <li>Support team ready to help you get the fit dialed in</li>
+          </ul>
+        </article>
+      </div>
+      <p class="shipping-note reveal">
+        Questions about your order? Email
+        <a href="mailto:hello@snooom.co">hello@snooom.co</a> and the SNOOOM team will take care of you.
+      </p>
     </section>
 
     <section class="size-guide" id="size-guide">
@@ -1344,12 +1440,39 @@
       }
     });
 
+    const addToCartBtn = document.querySelector('.snipcart-add-item');
+    const sizeButtons = document.querySelectorAll('.size-selector button');
+    let selectedSize = null;
+
+    sizeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        sizeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedSize = btn.textContent.trim();
+        if (addToCartBtn) {
+          addToCartBtn.setAttribute('data-item-custom1-value', selectedSize);
+        }
+      });
+    });
+
+    if (sizeButtons.length) {
+      const defaultSizeBtn = Array.from(sizeButtons).find(b => b.textContent.trim() === 'M') || sizeButtons[0];
+      defaultSizeBtn.classList.add('active');
+      selectedSize = defaultSizeBtn.textContent.trim();
+      if (addToCartBtn) {
+        addToCartBtn.setAttribute('data-item-custom1-value', selectedSize);
+      }
+    }
+
     const qtyNumberEl = document.getElementById('qty-number');
     const qtyButtons = document.querySelectorAll('.quantity-selector .qty-btn');
     let qtyValue = 1;
     const updateQtyDisplay = () => {
       if (qtyNumberEl) qtyNumberEl.textContent = qtyValue;
+      if (addToCartBtn) addToCartBtn.setAttribute('data-item-quantity', qtyValue);
     };
+    updateQtyDisplay();
+
     qtyButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         if (btn.classList.contains('plus')) {
@@ -1367,7 +1490,7 @@
       { quote: '“Wore it from a coffee run to a night session in the studio. Never stretched out, never lost shape.”', author: 'Mila · Photographer' },
       { quote: '“The embroidery hits in person. People keep asking where it’s from every time I wear it.”', author: 'Dre · DJ & Curator' },
       { quote: '“This is the hoodie I grab when I don’t want to overthink the outfit but still want it to feel intentional.”', author: 'Talia · Art Director' },
-      { quote: '“It has that vintage varsity DNA, but the fit is modern and clean. Not loud, just confident.”', author: 'Sage · Creative Consultant' },
+      { quote: '“It has that old athletic department DNA, but the fit is modern and clean. Not loud, just confident.”', author: 'Sage · Creative Consultant' },
       { quote: '“Put it on for a flight and kept it on all weekend. Warm, heavy, and weirdly reassuring.”', author: 'Emi · DJ & Stylist' },
       { quote: '“The hood actually holds its shape. No floppy sides, no weird collapse. It frames your face properly.”', author: 'Jordan · Creative Director' },
       { quote: '“The inside feels like brushed fleece, the outside looks structured and sharp. It photographs insanely well.”', author: 'Kei · Filmmaker' },
@@ -1553,4 +1676,5 @@
 
 </body>
 </html>
+
 
